@@ -1,18 +1,17 @@
 {
-	"name": "temp",
-	"version": "1.0.0",
-	"description": "",
+	"name": "blcktulip",
+	"version": "0.1.0",
+	"description": ".blcktulip - component oriented boilerplate to create web-sites or web-applications",
 	"main": "index.js",
 	"scripts": {
 		"serve": "PROJECT_MODE='development' gulp serve",
 		"serve:docs": "gulp serve:docs",
 		"build:docs": "jsdoc --configure .jsdoc.json --verbose",
-		"tt": "gulp imports",
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"create-component": "node index.cli.js component",
 		"create-page": "node index.cli.js page"
 	},
-	"author": "",
+	"author": "Arman Kuanysh <armankuanysh.e@gmail.com>",
 	"license": "ISC",
 	"devDependencies": {
 		"@babel/core": "^7.8.4",
