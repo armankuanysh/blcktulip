@@ -1,0 +1,28 @@
+{% from 'components/atoms/heading/index.njk' import heading %}
+
+{# Page :: index #}
+
+{% extends 'layouts/default.njk' %}
+
+{% block styles %}
+<link rel="stylesheet" href="css/index.css">
+{% endblock %}
+
+{% block main %}
+<main class="pr-pages">
+	<div class="container">
+    <div class="pr-pages__inner">
+      {# <h3>Все страницы верстки</h3> #}
+			{{ heading('h1', 'Все страницы верстки') }}
+      <ol>
+        <!-- inject:html -->
+        <!-- endinject -->
+      </ol>
+    </div>
+  </div>
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script src="scripts/index.bundle.js"></script>
+{% endblock %}

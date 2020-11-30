@@ -1,0 +1,297 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rocketfront bin/cli/classes/components/index.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Rocketfront Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-_CLI.Components_.html">'CLI.Components'</a></li><li><a href="module-_CLI.Core_.html">'CLI.Core'</a></li><li><a href="module-_CLI.Pages_.html">'CLI.Pages'</a></li></ul><h3>Namespaces</h3><ul><li><a href="Gulp.html">Gulp</a></li><li><a href="Gulp.Scripts.html">Scripts</a></li><li><a href="Gulp.Styles.html">Styles</a></li><li><a href="Gulp.Sync.html">Sync</a></li><li><a href="Gulp.Templates.html">Templates</a></li></ul><h3>Classes</h3><ul><li><a href="CLI.Components.html">Components</a></li><li><a href="CLI.Pages.html">Pages</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>bin/cli/classes/components/index.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @namespace CLI
+ * @module 'CLI.Components'
+ * @description
+ * Module that contain CLI commands for components
+ */
+const inq = require('inquirer');
+const path = require('path');
+const fs = require('fs');
+
+/**
+ * @class
+ * @memberof CLI
+ * @name Components
+ * @description
+ * Class that creates components
+ */
+class Components {
+	/**
+	 * @private
+	 * @method njk
+	 * @param {string} name - Name of the component
+	 * @param {string} type - Type of the component
+	 * @returns {string} - template of njk file of the component
+	 */
+	njk(name, type) {
+		return `
+{# ${type.toUpperCase()} component :: ${name} #}
+`;
+	}
+
+	/**
+	 * @private
+	 * @method js
+	 * @param {string} name - Name of the component
+	 * @param {string} type - Type of the component
+	 * @returns {string} - template of js file of the component
+	 */
+	js(name, type) {
+		return `
+/**
+ * @module COMPONENTS/${type.toUpperCase()}/${name}
+ * @name ${name}
+ */
+`;
+	}
+
+	/**
+	 * @private
+	 * @method sass
+	 * @param {string} name - Name of the component
+	 * @param {string} type - Type of the component
+	 * @returns {string} - template of sass file of the component
+	 */
+	sass(name, type) {
+		return `
+/** ${type.toUpperCase()} component :: ${name} **/
+`;
+	}
+
+	/**
+	 * @private
+	 * @method prompt
+	 * @returns {{ type: string, name: string }} - answers from prompt
+	 */
+	prompt() {
+		const questions = [
+			{
+				name: 'type',
+				type: 'list',
+				message: '😼: Компонент какого типа нужен?',
+				choices: [
+					{
+						value: 'atoms'
+					},
+					{
+						value: 'moleculus'
+					},
+					{
+						value: 'organisms'
+					},
+					{
+						value: 'template'
+					}
+				]
+			},
+			{
+				name: 'name',
+				type: 'input',
+				message: '👋: Введи название компонента:'
+			}
+		];
+		return inq.prompt(questions);
+	}
+
+	/**
+	 * @private
+	 * @method askForRewrite
+	 * @returns {{ rewrite: string }} - answers from prompt
+	 */
+	askForRewrite() {
+		return inq.prompt([
+			{
+				name: 'rewrite',
+				type: 'list',
+				message: '😺: Кажись, такой компонент уже есть, переписать компонент?',
+				choices: [
+					{
+						value: 'nope'
+					},
+					{
+						value: 'yup'
+					}
+				]
+			}
+		]);
+	}
+
+	/**
+	 * @public
+	 * @method createComponent
+	 * @param {string} ctx - context of CLI
+	 * @returns {void}
+	 */
+	async createComponent(ctx) {
+		const { type, name } = await this.prompt();
+		const validName = name.replace('-', '_') || name.replace(' ', '_');
+		const dest = path.join(ctx, `/components/${type}/${validName}`);
+		const extensions = ['js', 'scss', 'njk'];
+		const methods = {
+			js: (name, type) => this.js(name, type),
+			scss: (name, type) => this.sass(name, type),
+			njk: (name, type) => this.njk(name, type)
+		};
+
+		const createFile = ext =>
+			fs.mkdir(dest, { recursive: true }, err => {
+				if (!err) {
+					fs.writeFile(
+						`${dest}/index.${ext}`,
+						methods[ext](validName, type),
+						e => {
+							if (!e) {
+								console.log(`😼: Компонент ${validName} успешно создан!`);
+							} else {
+								console.log('😿: Oops! Что-то пошло не так', e);
+							}
+						}
+					);
+				} else {
+					console.log('😿: Oops! Что-то пошло не так', err);
+				}
+			});
+
+		extensions.forEach(ext => {
+			fs.readFile(`${dest}/index.${ext}`, 'utf-8', async (err, data) => {
+				if (!err) {
+					if (data) {
+						const { rewrite } = await this.askForRewrite();
+						if (rewrite === 'yup') {
+							createFile(ext);
+						} else {
+							console.log('😸: Оке');
+							process.exit(1);
+						}
+					} else {
+						createFile(ext);
+					}
+				} else {
+					createFile(ext);
+				}
+			});
+		});
+	}
+}
+
+module.exports = Components;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>

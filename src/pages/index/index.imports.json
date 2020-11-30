@@ -1,0 +1,8 @@
+{
+	"components": {
+		"heading": {
+			"path": "components/atoms/heading",
+			"default": false
+		}
+	}
+}

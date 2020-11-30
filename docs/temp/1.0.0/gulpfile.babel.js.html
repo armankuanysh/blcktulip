@@ -1,0 +1,241 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rocketfront gulpfile.babel.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Rocketfront Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    API Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-_CLI.Components_.html">'CLI.Components'</a></li><li><a href="module-_CLI.Core_.html">'CLI.Core'</a></li><li><a href="module-_CLI.Pages_.html">'CLI.Pages'</a></li></ul><h3>Namespaces</h3><ul><li><a href="Gulp.html">Gulp</a></li><li><a href="Gulp.Scripts.html">Scripts</a></li><li><a href="Gulp.Styles.html">Styles</a></li><li><a href="Gulp.Sync.html">Sync</a></li><li><a href="Gulp.Templates.html">Templates</a></li></ul><h3>Classes</h3><ul><li><a href="CLI.Components.html">Components</a></li><li><a href="CLI.Pages.html">Pages</a></li></ul><h3><a href="global.html">Global</a></h3></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>gulpfile.babel.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/* eslint-disable import/no-cycle */
+/**
+ * @namespace Gulp
+ * @description
+ * This is a main gulpfile module that contain all tasks
+ */
+import gulp from 'gulp';
+import { njk } from './bin/gulp/templates';
+import { styles, pageStyles } from './bin/gulp/styles';
+import { scripts } from './bin/gulp/scripts';
+import { serveDev, serveDocs } from './bin/gulp/sync';
+
+/**
+ * @typedef njk
+ * @property {string} src – source of .njk files
+ * @property {string} pages - source of all pages
+ * @property {string} dest - destination source
+ */
+
+/**
+ * @typedef sass
+ * @property {string} src - source of sass files
+ * @property {string} pages - source of page style files
+ * @property {string} dest - destination source
+ */
+
+/**
+ * @typedef scripts
+ * @property {string} src - source of scripts files ts or js
+ * @property {string} dest - destination source
+ */
+
+/**
+ * @typedef pathsT
+ * @property {string} package - path to package.json
+ * @property {njk} njk - source of nunjucks templates
+ * @property {sass} sass - source of sass files
+ * @property {scripts} scripts - source of script files
+ * @property {string} docs - destination source of docs
+ */
+export const paths = {
+	package: 'package.json',
+	njk: {
+		src: 'src/pages/**/*.njk',
+		pages: 'src/',
+		dest: '.tmp/'
+	},
+	sass: {
+		src: 'src/styles/**/*.{scss,sass}',
+		pages: 'src/pages/**/*.{scss,sass}',
+		dest: '.tmp/css'
+	},
+	scripts: {
+		src: 'src/**/*.{js,ts}',
+		dest: '.tmp/scripts'
+	},
+	docs: 'docs'
+};
+
+/**
+ * @memberof Gulp
+ * @name pages
+ * @description
+ * Gulp task that builds templates
+ * @example
+ * gulp.task('pages', njk);
+ */
+gulp.task('pages', njk);
+
+/**
+ * @memberof Gulp
+ * @name styles
+ * @description
+ * Gulp task that builds styles
+ * @example
+ * gulp.task('styles', styles);
+ */
+gulp.task('styles', styles);
+
+/**
+ * @memberof Gulp
+ * @name pageStyles
+ * @description
+ * Gulp task that builds styles of pages
+ * @example
+ * gulp.task('pageStyles', pageStyles);
+ */
+gulp.task('pageStyles', pageStyles);
+
+/**
+ * @memberof Gulp
+ * @name scripts
+ * @description
+ * Gulp task that builds scripts
+ * @example
+ * gulp.task('scripts', scripts);
+ */
+gulp.task('scripts', scripts);
+
+/**
+ * @memberof Gulp
+ * @name serve
+ * @description
+ * Gulp task that runs local development server
+ * @example
+ * gulp.task('serve', gulp.series(gulp.series('pages', 'styles', 'scripts'), serveDev));
+ */
+gulp.task(
+	'serve',
+	gulp.series(gulp.series('pages', 'styles', 'pageStyles', 'scripts'), serveDev)
+);
+
+/**
+ * @memberof Gulp
+ * @name serve:docs
+ * @description
+ * Gulp task that runs local server for docs
+ * @example
+ * gulp.task('serve:docs', gulp.series(serveDocs));
+ */
+gulp.task('serve:docs', gulp.series(serveDocs));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.6</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+</body>
+</html>
